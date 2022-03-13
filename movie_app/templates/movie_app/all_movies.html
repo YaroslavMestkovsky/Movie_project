@@ -11,5 +11,10 @@
         <li> <a href="{{ movie.get_url }}">{{ movie.name }}</a></li>
         {% endfor %}
     </ul>
+    <h3>Средний бюджет - {{ movies_info.budget__avg|floatformat:'2' }}</h3>
+    <h3>Средний рейтинг - {{ movies_info.rating__avg}}</h3>
+    <h3>Максимальный рейтинг - {{ movies_info.rating__max }}</h3>
+    <h3>Минимальный рейтинг - {{ movies_info.rating__min}}</h3>
+    <h3>Всего фильмов - {{ movies_info.id__count }}</h3>
 
 {% endblock %}
