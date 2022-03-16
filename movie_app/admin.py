@@ -1,10 +1,13 @@
 from django.contrib import admin, messages
 from django.contrib.auth.models import User
-from .models import Movie
+from .models import Movie, Director, Actor, DressingRoom
 from django.db.models import QuerySet
 
-
 # Register your models here.
+
+admin.site.register(Director)
+admin.site.register(Actor)
+# admin.site.register(DressingRoom)
 
 class RatingFilter(admin.SimpleListFilter):
     title = 'Фильтр по рейтингу'
@@ -26,12 +29,17 @@ class RatingFilter(admin.SimpleListFilter):
             return queryset.filter(rating__gte=85)
 
 
+@admin.register(DressingRoom)
+class DressingRoomAdmin(admin.ModelAdmin):
+    list_display = ['floor', 'number', 'actor']
+
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
     # exclude = ['slug'] # поле, которое не отображается при регистрации нового фильма
-    prepopulated_fields = {'slug': ('name', )}
-    list_display = ['name', 'rating', 'year', 'budget', 'currency', 'viewed', 'rating_status']
-    list_editable = ['rating', 'year', 'budget', 'currency', 'viewed']
+    prepopulated_fields = {'slug': ('name',)}
+    list_display = ['name', 'rating', 'year', 'budget', 'currency', 'director', 'viewed', 'rating_status']
+    list_editable = ['rating', 'year', 'budget', 'currency', 'viewed', 'director']
+    filter_horizontal = ['actors']
     # ordering = ['rating'] # сортировка по тегу рейтинг
     list_per_page = 10
     actions = ['set_dollars', 'set_euros']
